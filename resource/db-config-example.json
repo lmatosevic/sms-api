@@ -1,0 +1,8 @@
+{
+  "driver": "mysql",
+  "host": "127.0.0.1",
+  "username": "user",
+  "password": "pass",
+  "database": "sms_cell",
+  "args": "pool=true"
+}
