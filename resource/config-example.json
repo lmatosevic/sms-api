@@ -1,0 +1,19 @@
+{
+  "api": {
+    "name": "SMS API",
+    "host": "127.0.0.1",
+    "port": 8080
+  },
+  "db": {
+    "driver": "mysql",
+    "host": "127.0.0.1",
+    "username": "user",
+    "password": "pass",
+    "database": "sms_cell",
+    "args": "pool=true"
+  },
+  "smsclient": {
+    "host": "192.168.5.11",
+    "port": 8484
+  }
+}
