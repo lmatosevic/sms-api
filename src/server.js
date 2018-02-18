@@ -19,10 +19,14 @@ app.use(bodyParser.json());
 var commandRoutes = require('./route/command-route');
 commandRoutes(app);
 
+app.use(function(req, res) {
+    res.status(404).send({error: "This URL was not found on this server."})
+});
+
 client.connect(config.smsclient.port, config.smsclient.host);
 
 var server = app.listen(config.api.port, config.api.host, function() {
     var host = server.address().address;
     var port = server.address().port;
-    console.log('Running at http://' + host + ':' + port)
+    console.log("Running at http://" + host + ":" + port)
 });
