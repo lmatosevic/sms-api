@@ -3,6 +3,7 @@ var express = require('express'),
     orm = require('orm'),
     config = require('../resource/config'),
     client = require('./smsclient/sms-client'),
+    basicAuth = require('express-basic-auth'),
     app = express();
 
 app.use(orm.express(config.db.driver + "://" + config.db.username + ":" + config.db.password + "@" + config.db.host + "/" +
@@ -16,16 +17,25 @@ app.use(orm.express(config.db.driver + "://" + config.db.username + ":" + config
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.use(basicAuth({
+    authorizer: function (username, password) {
+        return username === "admin" && password === "secret";
+    },
+    unauthorizedResponse: function (req) {
+        return {error: req.auth ? ("Credentials rejected") : "No credentials provided"}
+    }
+}));
+
 var commandRoutes = require('./route/command-route');
 commandRoutes(app);
 
-app.use(function(req, res) {
+app.use(function (req, res) {
     res.status(404).send({error: "This URL was not found on this server."})
 });
 
 client.connect(config.smsclient.port, config.smsclient.host);
 
-var server = app.listen(config.api.port, config.api.host, function() {
+var server = app.listen(config.api.port, config.api.host, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log("Running at http://" + host + ":" + port)
