@@ -14,6 +14,7 @@
   },
   "smsclient": {
     "host": "192.168.5.11",
-    "port": 8484
+    "port": 8484,
+    "reconnectDelay": 5000
   }
 }

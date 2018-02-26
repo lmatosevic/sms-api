@@ -7,7 +7,7 @@ function SMSClient() {
     this.reconnectTask = null;
 }
 
-SMSClient.prototype.connect = function (port, host) {
+SMSClient.prototype.connect = function (port, host, reconnectDelay) {
     this.client = new net.Socket();
     this.connected = false;
     this.client.connect(port, host, function () {
@@ -20,7 +20,7 @@ SMSClient.prototype.connect = function (port, host) {
     }.bind(this));
     this.client.on('error', function (err) {
         console.error("SMS client error: " + err);
-    });
+    }.bind(this));
     this.client.on('close', function () {
         if (this.connected) {
             console.log("SMS client closed");
@@ -28,8 +28,8 @@ SMSClient.prototype.connect = function (port, host) {
         this.connected = false;
         if (!this.reconnectTask) {
             this.reconnectTask = setInterval(function () {
-                this.connect(port, host);
-            }.bind(this), 5000);
+                this.connect(port, host, reconnectDelay);
+            }.bind(this), reconnectDelay);
         }
     }.bind(this));
 };

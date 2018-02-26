@@ -26,14 +26,14 @@ app.use(basicAuth({
     }
 }));
 
-var commandRoutes = require('./route/command-route');
-commandRoutes(app);
+var smsRoutes = require('./route/sms-route');
+smsRoutes(app);
 
 app.use(function (req, res) {
     res.status(404).send({error: "This URL was not found on this server."})
 });
 
-client.connect(config.smsclient.port, config.smsclient.host);
+client.connect(config.smsclient.port, config.smsclient.host, config.smsclient.reconnectDelay);
 
 var server = app.listen(config.api.port, config.api.host, function () {
     var host = server.address().address;
