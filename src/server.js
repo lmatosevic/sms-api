@@ -1,7 +1,7 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     orm = require('orm'),
-    config = require('../resource/config'),
+    config = require('../resources/config'),
     client = require('./smsclient/sms-client'),
     basicAuth = require('express-basic-auth'),
     app = express();
