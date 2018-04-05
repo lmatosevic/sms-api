@@ -17,6 +17,7 @@ app.use(orm.express(config.db.driver + "://" + config.db.username + ":" + config
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// noinspection JSUnusedGlobalSymbols
 app.use(basicAuth({
     authorizer: function (username, password) {
         return username === "admin" && password === "secret";
